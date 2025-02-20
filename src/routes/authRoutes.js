@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.post('/register', async (req, res) => {
   try {
-    const { email, username, password, city, state } = req.body
+    const { email, username, password, city, country } = req.body
 
     const hashedPassword = await bcrypt.hash(password, 10)
     const existingUser = await prisma.user.findUnique({
@@ -26,7 +26,7 @@ router.post('/register', async (req, res) => {
         username,
         password: hashedPassword,
         city,
-        state,
+        country,
       },
     })
 
