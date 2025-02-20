@@ -17,7 +17,7 @@ router.post('/register', async (req, res) => {
     })
 
     if (existingUser) {
-      res.status(400).json({ error: 'User already exists' })
+      res.status(400).json({ error: 'User already exists', message: email })
     }
 
     const user = await prisma.user.create({
@@ -31,7 +31,9 @@ router.post('/register', async (req, res) => {
     res.status(201).json(user)
   } catch (error) {
     console.error('Error creating user:', error)
-    res.status(500).json({ error: 'Error creating user' })
+    res
+      .status(500)
+      .json({ error: 'Error creating user', message: error.message })
   }
 })
 
@@ -45,7 +47,7 @@ router.post('/login', async (req, res) => {
     })
 
     if (!user) {
-      res.status(401).json({ error: 'Invalid credentials' })
+      res.status(401).json({ error: 'Invalid credentials', message: email })
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password)
@@ -61,7 +63,7 @@ router.post('/login', async (req, res) => {
     res.status(200).json({ token })
   } catch (error) {
     console.error('Error logging in:', error)
-    res.status(500).json({ error: 'Error logging in' })
+    res.status(500).json({ error: 'Error logging in', message: error.message })
   }
 })
 

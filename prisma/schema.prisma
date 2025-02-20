@@ -10,9 +10,67 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum WeatherUnit {
+  CELSIUS
+  FAHRENHEIT
+}
+
 model User {
   id    String  @id @default(cuid())
   email String  @unique
   username  String?
   password  String?
+  location  String?
+
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  notificationsEnabled Boolean @default(true)
+  weatherUnit         WeatherUnit  @default(CELSIUS)
+  shareData          Boolean @default(true)
+  
+  moodEntries       MoodEntry[]
+  
+  @@map("users")
+}
+
+model MoodEntry {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  entryDateTime DateTime  // When the mood was actually experienced
+  moodText     String    // Raw text input from user
+  moodLabel    String    // Processed mood label from LLM (e.g., "happy", "sad")
+  moodScore    Float     // Numerical score
+  summary        String?   // Additional notes from LLM
+  
+  // Weather data at the time of entry
+  weatherData WeatherData?
+  
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([entryDateTime])
+  @@map("mood_entries")
+}
+
+model WeatherData {
+  id            String    @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  
+  temperature   Float     // in Celsius
+  humidity      Float?    // percentage
+  pressure      Float?    // hPa
+  windSpeed     Float?    // m/s
+  cloudCover    Float?    // percentage
+  precipitation Float?    // mm
+  weatherType   String    // e.g., "sunny", "rainy", "cloudy"
+  description   String?   
+  
+  moodEntryId   String    @unique
+  moodEntry     MoodEntry @relation(fields: [moodEntryId], references: [id], onDelete: Cascade)
+  
+  @@map("weather_data")
 }
