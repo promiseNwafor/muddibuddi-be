@@ -2,6 +2,7 @@ import express from 'express'
 import { body, validationResult } from 'express-validator'
 import prisma from '../utils/prismaClient.js'
 import { analyzeMood } from '../utils/index.js'
+import { getWeatherByLocation } from '../utils/weatherData.js'
 
 const router = express.Router()
 
@@ -40,10 +41,25 @@ router.post(
       const { moodText, entryDateTime } = req.body
       const userId = req.user.id
 
-      // get weather data here
+      const userData = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      })
 
-      const moodAnalysis = await analyzeMood(moodText)
-      console.log({ moodAnalysis, userId })
+      if (!userData) {
+        return res
+          .status(404)
+          .json({ error: 'User not found', message: userId })
+      }
+
+      // get weather data here
+      const weatherData = await getWeatherByLocation('London', entryDateTime)
+
+      console.log({ weatherData })
+
+      //   const moodAnalysis = await analyzeMood(moodText)
+      //   console.log({ moodAnalysis, userId })
 
       // await prisma.moodEntry.create({
       //   data: {

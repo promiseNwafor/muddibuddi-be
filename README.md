@@ -45,7 +45,7 @@ Edit `.env` with your configuration:
 ```env
 DATABASE_URL="postgresql://user:password@localhost:5432/dbname"
 JWT_SECRET="your-secret-key"
-PORT=3000
+PORT=8000
 ```
 
 4. Run database migrations:
@@ -116,10 +116,10 @@ npm run test
 npm run build
 ```
 
-2. Start production server:
+2. Start development server:
 
 ```bash
-npm start
+npm run dev
 ```
 
 ### Docker Deployment

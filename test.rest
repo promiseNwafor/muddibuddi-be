@@ -6,6 +6,8 @@ Content-Type: application/json
     "username" : "test",
     "email" : "test@gmail.com",
     "password" : "123123123"
+    "city" : "london"
+    "state" : "UK"
 }
 
 ### login user
@@ -21,11 +23,11 @@ Content-Type: application/json
 
 ### get mood entries
 GET http://localhost:8000/mood/entries
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtN2NxcGRvcDAwMDAwamlnMXRseTY1d3UiLCJpYXQiOjE3NDAwMTk1ODEsImV4cCI6MTc0MDEwNTk4MX0.530hY3qdnuwyZUj82OCJioB9Bt665U-Vxbb1verE_wU
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtN2NxcGRvcDAwMDAwamlnMXRseTY1d3UiLCJpYXQiOjE3NDAwNjkxODksImV4cCI6MTc0MDE1NTU4OX0.S8OWc4H2AFSphjcCZ4n-7G9Pjwmw-BGonYDXh5qsqBI
 
 ### post mood entries
 POST http://localhost:8000/mood/entries
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtN2NxcGRvcDAwMDAwamlnMXRseTY1d3UiLCJpYXQiOjE3NDAwMTk1ODEsImV4cCI6MTc0MDEwNTk4MX0.530hY3qdnuwyZUj82OCJioB9Bt665U-Vxbb1verE_wU
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtN2NxcGRvcDAwMDAwamlnMXRseTY1d3UiLCJpYXQiOjE3NDAwNjkxODksImV4cCI6MTc0MDE1NTU4OX0.S8OWc4H2AFSphjcCZ4n-7G9Pjwmw-BGonYDXh5qsqBI
 Content-Type: application/json
 
 {
