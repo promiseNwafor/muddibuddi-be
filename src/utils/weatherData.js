@@ -18,6 +18,7 @@ const formatWeatherData = (weatherData) => {
     precipitation: weatherData.rain ? weatherData.rain['1h'] || 0 : 0,
     weatherType: weatherData.weather[0].main.toLowerCase(),
     description: weatherData.weather[0].description,
+    feelsLike: weatherData.main.feels_like - 273.15,
   }
 }
 
@@ -94,56 +95,42 @@ export const getHistoricalWeather = async ({
     // Check if the requested date is within the last 5 days
     const fiveDaysAgo = Math.floor(Date.now() / 1000) - 5 * 24 * 60 * 60
 
-    let response
+    let endpoint
     if (timestamp > fiveDaysAgo) {
-      // Use 5 day/3 hour forecast for recent dates
-      response = await axios.get(`${OPENWEATHER_BASE_URL}/data/2.5/forecast`, {
-        params: {
-          lat: latitude,
-          lon: longitude,
-          appid: OPENWEATHER_API_KEY,
-        },
-        timeout: 5000,
-      })
-
-      if (response.status !== 200) {
-        throw new Error(`Weather API returned status ${response.status}`)
-      }
-
-      // Find the closest forecast time to the requested datetime
-      const closestWeatherData = response.data.list.reduce(
-        (closest, current) => {
-          const currentDiff = Math.abs(current.dt - timestamp)
-          const closestDiff = Math.abs(closest.dt - timestamp)
-          return currentDiff < closestDiff ? current : closest
-        },
-        response.data.list[0],
-      )
-
-      return formatWeatherData(closestWeatherData)
+      // Use 5 day/3 hour forecast history for recent dates
+      endpoint = '/data/2.5/forecast'
     } else {
-      // For historical data, we need to use a different API
-      // Note: This requires a separate OpenWeather subscription
-      response = await axios.get(
-        `${OPENWEATHER_BASE_URL}/data/3.0/onecall/timemachine`,
-        {
-          params: {
-            lat: latitude,
-            lon: longitude,
-            dt: timestamp,
-            appid: OPENWEATHER_API_KEY,
-          },
-          timeout: 5000,
-        },
-      )
-
-      if (response.status !== 200) {
-        throw new Error(`Weather API returned status ${response.status}`)
-      }
-
-      // Historical API returns data in a different format
-      return formatWeatherData(response.data.data[0])
+      // Use Historical Weather API for older dates
+      endpoint = '/data/2.5/history/city'
     }
+
+    const response = await axios.get(`${OPENWEATHER_BASE_URL}${endpoint}`, {
+      params: {
+        lat: latitude,
+        lon: longitude,
+        dt: timestamp,
+        appid: OPENWEATHER_API_KEY,
+      },
+      timeout: 5000,
+    })
+
+    if (response.status !== 200) {
+      throw new Error(`Weather API returned status ${response.status}`)
+    }
+
+    // For historical data, find the closest time to the requested datetime
+    let closestWeatherData
+    if (endpoint === '/data/2.5/forecast') {
+      closestWeatherData = response.data.list.reduce((closest, current) => {
+        const currentDiff = Math.abs(current.dt - timestamp)
+        const closestDiff = Math.abs(closest.dt - timestamp)
+        return currentDiff < closestDiff ? current : closest
+      })
+    } else {
+      closestWeatherData = response.data
+    }
+
+    return formatWeatherData(closestWeatherData)
   } catch (error) {
     if (error.response) {
       console.error('Historical weather API error:', error.response.data)
@@ -159,6 +146,7 @@ export const getHistoricalWeather = async ({
     }
   }
 }
+
 /**
  * Get weather data by location name (current or historical)
  * @param {string} location - Location name (e.g., "London, UK")

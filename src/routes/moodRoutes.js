@@ -53,20 +53,32 @@ router.post(
           .json({ error: 'User not found', message: userId })
       }
 
-      // get weather data here
-      const weatherData = await getWeatherByLocation('London', entryDateTime)
+      const weatherData = await getWeatherByLocation(userData.city)
 
       console.log({ weatherData })
 
-      //   const moodAnalysis = await analyzeMood(moodText)
-      //   console.log({ moodAnalysis, userId })
+      const { moodLabel, moodScore, summary } = await analyzeMood(moodText)
 
-      // await prisma.moodEntry.create({
-      //   data: {
-      //     moodText,
-      //     entryDateTime,
-      //   },
-      // })
+      await prisma.moodEntry.create({
+        data: {
+          moodText,
+          entryDateTime,
+          moodLabel,
+          moodScore,
+          summary,
+          userId,
+          city: userData.city,
+          country: userData.country,
+          weatherData: {
+            create: {
+              ...weatherData,
+            },
+          },
+        },
+        include: {
+          weatherData: true,
+        },
+      })
 
       res.status(201).json({ message: 'Mood entry created successfully' })
     } catch (error) {
