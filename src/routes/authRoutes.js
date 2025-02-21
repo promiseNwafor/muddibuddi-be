@@ -32,18 +32,27 @@ router.post('/register', async (req, res) => {
       },
     })
 
+    const data = {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      city: user.city,
+      country: user.country,
+      weatherUnit: user.weatherUnit,
+      notificationEnabled: user.notificationsEnabled,
+      shareData: user.shareData,
+    }
+
     res
       .status(201)
-      .json({ message: 'User created successfully', data: user, success: true })
+      .json({ message: 'User created successfully', data, success: true })
   } catch (error) {
     console.error('Error creating user:', error)
-    res
-      .status(500)
-      .json({
-        error: 'Error creating user',
-        message: error.message,
-        success: false,
-      })
+    res.status(500).json({
+      error: 'Error creating user',
+      message: error.message,
+      success: false,
+    })
   }
 })
 
@@ -77,13 +86,11 @@ router.post('/login', async (req, res) => {
     res.status(200).json({ token, message: 'Login successful', success: true })
   } catch (error) {
     console.error('Error logging in:', error)
-    res
-      .status(500)
-      .json({
-        error: 'Error logging in',
-        message: error.message,
-        success: false,
-      })
+    res.status(500).json({
+      error: 'Error logging in',
+      message: error.message,
+      success: false,
+    })
   }
 })
 
