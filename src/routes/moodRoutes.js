@@ -6,9 +6,13 @@ import { getWeatherByLocation } from '../utils/weatherData.js'
 
 const router = express.Router()
 
-router.get('/entries', async (_req, res) => {
+router.get('/entries', async (req, res) => {
   try {
-    const mood_entries = await prisma.moodEntry.findMany()
+    const mood_entries = await prisma.moodEntry.findMany({
+      where: {
+        userId: req.user.id,
+      },
+    })
 
     res.status(200).json({
       message: 'Mood entries fetched successfully',
@@ -61,7 +65,7 @@ router.post(
           .json({ error: 'User not found', message: userId, success: false })
       }
 
-      const weatherData = await getWeatherByLocation(userData.city)
+      //   const weatherData = await getWeatherByLocation(userData.city)
 
       const { moodLabel, moodScore, summary } = await analyzeMood(moodText)
 
@@ -75,9 +79,18 @@ router.post(
           userId,
           city: userData.city,
           country: userData.country,
+          // TODO: Add weather data
           weatherData: {
             create: {
-              ...weatherData,
+              temperature: 10.430000000000007,
+              humidity: 90,
+              pressure: 1013,
+              windSpeed: 5.66,
+              cloudCover: 100,
+              precipitation: 0.55,
+              weatherType: 'rain',
+              description: 'light rain',
+              feelsLike: 9.879999999999995,
             },
           },
         },

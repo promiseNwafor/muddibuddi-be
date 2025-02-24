@@ -19,15 +19,18 @@ Content-Type: application/json
     "password" : "123123123"
 }
 
+### get user data
+GET http://localhost:8000/user/data
+
 # =====================================================
 
 ### get mood entries
 GET http://localhost:8000/mood/entries
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtN2R2eDhhbjAwMDBubDBvZGtvbnMyMnMiLCJpYXQiOjE3NDAwODg3NzYsImV4cCI6MTc0MDE3NTE3Nn0.jqqsmecdyybaSrq1gvx4KLCqlBJUyrRLhnsYfMGW5QE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtN2R2eDhhbjAwMDBubDBvZGtvbnMyMnMiLCJpYXQiOjE3NDAzNTgxMjcsImV4cCI6MTc0MDQ0NDUyN30.1r6O6AJci3yjYD3dPgBEdWbTX6laGCVRntpCqSPcwvk
 
 ### post mood entries
 POST http://localhost:8000/mood/entries
-Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtN2R2eDhhbjAwMDBubDBvZGtvbnMyMnMiLCJpYXQiOjE3NDAwODg3NzYsImV4cCI6MTc0MDE3NTE3Nn0.jqqsmecdyybaSrq1gvx4KLCqlBJUyrRLhnsYfMGW5QE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtN2R2eDhhbjAwMDBubDBvZGtvbnMyMnMiLCJpYXQiOjE3NDAzNTgxMjcsImV4cCI6MTc0MDQ0NDUyN30.1r6O6AJci3yjYD3dPgBEdWbTX6laGCVRntpCqSPcwvk
 Content-Type: application/json
 
 {
