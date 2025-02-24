@@ -65,7 +65,11 @@ router.post(
           .json({ error: 'User not found', message: userId, success: false })
       }
 
-      //   const weatherData = await getWeatherByLocation(userData.city)
+      const weatherData = await getWeatherByLocation(
+        userData.city,
+        entryDateTime,
+      )
+      console.log('++++++++++++++', weatherData)
 
       const { moodLabel, moodScore, summary } = await analyzeMood(moodText)
 
@@ -79,18 +83,9 @@ router.post(
           userId,
           city: userData.city,
           country: userData.country,
-          // TODO: Add weather data
           weatherData: {
             create: {
-              temperature: 10.430000000000007,
-              humidity: 90,
-              pressure: 1013,
-              windSpeed: 5.66,
-              cloudCover: 100,
-              precipitation: 0.55,
-              weatherType: 'rain',
-              description: 'light rain',
-              feelsLike: 9.879999999999995,
+              ...weatherData,
             },
           },
         },
