@@ -69,7 +69,6 @@ router.post(
         userData.city,
         entryDateTime,
       )
-      console.log('++++++++++++++', weatherData)
 
       const { moodLabel, moodScore, summary } = await analyzeMood(moodText)
 

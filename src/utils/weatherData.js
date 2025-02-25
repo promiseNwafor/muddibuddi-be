@@ -142,8 +142,6 @@ export const getHistoricalWeather = async ({
   longitude,
   datetime,
 }) => {
-  console.log('++++++++++++++', 'historical', latitude, longitude, datetime)
-
   try {
     if (!latitude || !longitude || !datetime) {
       throw new Error('Latitude, longitude, and datetime are required')

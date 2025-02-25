@@ -34,6 +34,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtN2R2eDhhb
 Content-Type: application/json
 
 {
-    "moodText" : "I bumped unto an old friend this evening, we caught up and I loved it",
-    "entryDateTime" : "2025-02-15T14:48:00.000Z"
+    "moodText" : "I went to class late today but the class was not that much an interesting one",
+    "entryDateTime" : "2024-08-01T10:18:00.000Z"
 }
