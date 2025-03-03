@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["Groq", "muddibuddi"]
+  "cSpell.words": ["Groq", "muddibuddi"],
+  "postman.settings.dotenv-detection-notification-visibility": false
 }

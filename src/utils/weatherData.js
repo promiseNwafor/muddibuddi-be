@@ -223,6 +223,9 @@ export const getWeatherByLocation = async (location, datetime = null) => {
 
     const { lat, lon } = geoResponse.data[0]
 
+    return getCurrentWeather({ latitude: lat, longitude: lon })
+
+    // TODO: Add support for historical data correctly
     if (datetime) {
       return getHistoricalWeather({
         latitude: lat,
