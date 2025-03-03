@@ -226,15 +226,15 @@ export const getWeatherByLocation = async (location, datetime = null) => {
     return getCurrentWeather({ latitude: lat, longitude: lon })
 
     // TODO: Add support for historical data correctly
-    if (datetime) {
-      return getHistoricalWeather({
-        latitude: lat,
-        longitude: lon,
-        datetime,
-      })
-    } else {
-      return getCurrentWeather({ latitude: lat, longitude: lon })
-    }
+    // if (datetime) {
+    //   return getHistoricalWeather({
+    //     latitude: lat,
+    //     longitude: lon,
+    //     datetime,
+    //   })
+    // } else {
+    //   return getCurrentWeather({ latitude: lat, longitude: lon })
+    // }
   } catch (error) {
     console.error('Error getting weather by location:', error)
     throw new Error(`Unable to get weather for location: ${location}`)
