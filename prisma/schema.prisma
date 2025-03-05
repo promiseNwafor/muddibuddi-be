@@ -46,6 +46,7 @@ model MoodEntry {
   moodLabel    String    // Processed mood label from LLM (e.g., "happy", "sad")
   moodScore    Float     // Numerical score
   summary     String?   // Additional notes from LLM
+  color       String?   // #FF8080
   city        String?
   country        String?
   

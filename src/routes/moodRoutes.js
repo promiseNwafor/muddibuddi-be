@@ -50,7 +50,13 @@ router.post(
     }
 
     try {
-      const { moodText, entryDateTime } = req.body
+      const {
+        moodText,
+        entryDateTime,
+        country,
+        saveAddress,
+        city = null,
+      } = req.body
       const userId = req.user.id
 
       const userData = await prisma.user.findUnique({
@@ -65,12 +71,20 @@ router.post(
           .json({ error: 'User not found', message: userId, success: false })
       }
 
-      const weatherData = await getWeatherByLocation(
-        userData.city,
-        entryDateTime,
-      )
+      const userCity = city || userData.city
 
-      const { moodLabel, moodScore, summary } = await analyzeMood(moodText)
+      if (!userCity) {
+        return res.status(400).json({
+          error: 'City is required',
+          message: 'No city provided!',
+          success: false,
+        })
+      }
+
+      const weatherData = await getWeatherByLocation(userCity, entryDateTime)
+
+      const { moodLabel, moodScore, summary, color } =
+        await analyzeMood(moodText)
 
       await prisma.moodEntry.create({
         data: {
@@ -79,9 +93,10 @@ router.post(
           moodLabel,
           moodScore,
           summary,
+          color,
           userId,
-          city: userData.city,
-          country: userData.country,
+          city: userCity,
+          country: country || userData.country,
           weatherData: {
             create: {
               ...weatherData,
@@ -93,6 +108,18 @@ router.post(
         },
       })
 
+      if (saveAddress) {
+        await prisma.user.update({
+          where: {
+            id: userId,
+          },
+          data: {
+            city,
+            country,
+          },
+        })
+      }
+
       res.status(201).json({
         message: 'Mood entry created successfully',
         data: null,
@@ -101,8 +128,8 @@ router.post(
     } catch (error) {
       console.error('Error creating mood entry:', error)
       res.status(500).json({
-        error: 'Error creating mood entry',
-        message: error.message,
+        error: error.message,
+        message: 'Error creating mood entry',
         success: false,
       })
     }

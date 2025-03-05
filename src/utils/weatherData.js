@@ -2,7 +2,6 @@ import axios from 'axios'
 
 const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEY
 const OPENWEATHER_BASE_URL = process.env.OPENWEATHER_BASE_URL
-const OPEN_METEO_BASE_URL = 'https://api.open-meteo.com/v1'
 const OPEN_METEO_ARCHIVE_URL = 'https://archive-api.open-meteo.com/v1/archive'
 
 /**

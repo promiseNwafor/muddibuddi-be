@@ -26,14 +26,14 @@ GET http://localhost:8000/user/data
 
 ### get mood entries
 GET http://localhost:8000/mood/entries
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtN2R2eDhhbjAwMDBubDBvZGtvbnMyMnMiLCJpYXQiOjE3NDEwMTc1MzYsImV4cCI6MTc0MTEwMzkzNn0.-LS5Ih-J0wVcBlNJ515oiNsMAnNBxvQQBZP7T7sn-_0 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtN2R2eDhhbjAwMDBubDBvZGtvbnMyMnMiLCJpYXQiOjE3NDEwOTI0NjcsImV4cCI6MTc0MTE3ODg2N30.BSK8mDEMDpXDtInoKkynK7mvSlXgaLnLTgi2vIQ2TkA 
 
 ### post mood entries
 POST http://localhost:8000/mood/entries
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtN2R2eDhhbjAwMDBubDBvZGtvbnMyMnMiLCJpYXQiOjE3NDEwMTc1MzYsImV4cCI6MTc0MTEwMzkzNn0.-LS5Ih-J0wVcBlNJ515oiNsMAnNBxvQQBZP7T7sn-_0 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImNtN2R2eDhhbjAwMDBubDBvZGtvbnMyMnMiLCJpYXQiOjE3NDEwOTI0NjcsImV4cCI6MTc0MTE3ODg2N30.BSK8mDEMDpXDtInoKkynK7mvSlXgaLnLTgi2vIQ2TkA 
 Content-Type: application/json
 
 {
-    "moodText" : "I went to class late today but the class was not that much an interesting one",
-    "entryDateTime" : "2025-02-24T22:19:00.000Z"
+    "moodText" : "The weather has been ust good.",
+    "entryDateTime" : "2025-03-04T23:00:25.487Z"
 }
